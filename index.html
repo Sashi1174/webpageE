@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login Page</title>
+  <meta charset="UTF-8" />
+  <title>Login / Signup Page</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,29 +12,51 @@
       align-items: center;
       height: 100vh;
     }
-    .login-container {
+
+    .container {
       background-color: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
+      width: 350px;
     }
-    .login-container h2 {
-      text-align: center;
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
     }
+
+    .tabs button {
+      background-color: #e0e0e0;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .tabs button.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
     .form-group {
       margin-bottom: 15px;
     }
+
     label {
       display: block;
       margin-bottom: 5px;
     }
-    input[type="text"], input[type="password"] {
+
+    input[type="text"], input[type="password"], input[type="email"] {
       width: 100%;
       padding: 8px;
       box-sizing: border-box;
     }
-    button {
+
+    button[type="submit"] {
       width: 100%;
       padding: 10px;
       background-color: #4CAF50;
@@ -44,25 +66,71 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    button:hover {
+
+    button[type="submit"]:hover {
       background-color: #45a049;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form action="/login" method="POST">
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-button active" onclick="showForm('login')">Login</button>
+      <button class="tab-button" onclick="showForm('signup')">Signup</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="login" class="form active" action="/login" method="POST">
+      <h2>Login</h2>
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required />
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" required />
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" required />
       </div>
       <button type="submit">Login</button>
     </form>
+
+    <!-- Signup Form -->
+    <form id="signup" class="form" action="/signup" method="POST">
+      <h2>Signup</h2>
+      <div class="form-group">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" required />
+      </div>
+      <button type="submit">Signup</button>
+    </form>
   </div>
+
+  <script>
+    function showForm(formId) {
+      const forms = document.querySelectorAll(".form");
+      const buttons = document.querySelectorAll(".tab-button");
+
+      forms.forEach(form => form.classList.remove("active"));
+      buttons.forEach(btn => btn.classList.remove("active"));
+
+      document.getElementById(formId).classList.add("active");
+      document.querySelector(`.tab-button[onclick="showForm('${formId}')"]`).classList.add("active");
+    }
+  </script>
 </body>
 </html>
